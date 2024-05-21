@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Create JSON File</title>
+</head>
+<body>
+    <h2>Create JSON File</h2>
+    <form id="jsonForm">
+        <label for="location">Destination Location:</label>
+        <input type="text" id="location" name="location" required>
+        <button type="submit">Create JSON File</button>
+    </form>
+    
+    <script>
+        document.getElementById('jsonForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const location = document.getElementById('location').value;
+            createJsonFile(location);
+        });
+
+        function createJsonFile(location) {
+            fetch('/api/createJsonFile', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ location: location })
+            })
+            .then(response => {
+                if (response.ok) {
+                    alert('JSON file created successfully!');
+                } else {
+                    throw new Error('Failed to create JSON file');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('An error occurred while creating JSON file');
+            });
+        }
+    </script>
+</body>
+</html>
